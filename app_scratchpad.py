@@ -28,7 +28,8 @@ mongo = PyMongo(app)
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-        
+        #myCollectionNames = mongo.db.collection_names()
+        #myCollectionNames.sort()
         myCollectionNames = ['Homework', 'Project', 'Off-Topic']
         return render_template("index.html", channels=myCollectionNames)
     else:
@@ -38,7 +39,14 @@ def index():
         [theDocuments, channelTopics, nConvTopics, nComments] = get_channel_stats(selectedChannel, mongo.db)
         #print(theDocuments)
         return render_template("channelPage.html", docs=theDocuments, channelTopics=channelTopics, channel=selectedChannel, nConvTopics=nConvTopics, nComments=nComments)
-    
+    ## connect to the database
+    #myCollection = mongo.db.events0
+    ## find all data in the database
+    ####myEvents = myCollection.find({"user":"Jeffrey"})   # if you only wanted to show database entries where "user" field is Jeffrey
+    #myEvents = myCollection.find({})  # passing an empty argument yields all database entries
+    ## return message to user
+    #return render_template('index.html', channels=myCollectionNames)
+
 
 @app.route('/addConvTopic/<name>', methods=['GET', 'POST'])   # here, <name> denotes a variable
 def add_conv_topic(name):
@@ -91,9 +99,46 @@ def add_comment(name1, name2):
         theCollection.insert({"convID":int(name2), "comment":newComment, "username":session['username']})
         return redirect("/")
 
+    # connect to the database
+    #myCollection = mongo.db.events0
+    # find data in the database
+    #myEvents = myCollection.find({"user":name})   # if you only wanted to show database entries where "user" is value of variable "name"
+    #myEvents = myCollection.find({})  # passing an empty argument yields all database entries
+    # return message to user
+    #return render_template('person.html', events=myEvents)
 
 
-           
+
+# CONNECT TO DB, ADD DATA
+
+@app.route('/add')
+def add():
+    # connect to the database
+    myEvents = mongo.db.events0   # connecting to the "events0" collection of "database0"
+    # insert new data
+    myEvents.insert({"event":"Birthday","data":"2019-09-10"})   # inserting an entry to the connected collection
+    # return a message to the user
+    return "Event has been added!"
+
+
+# USER TO ADD A NEW EVENT
+@app.route('/events/new', methods=['GET', 'POST'])
+def new_event():
+    if request.method == 'GET':
+        return render_template("new_event.html")
+    else:
+        event_name = request.form['event_name']
+        event_date = request.form['event_date']
+        user_name = request.form['user_name']
+
+        # Connect to DB
+        myCollection = mongo.db.events0
+        # Insert new data
+        myCollection.insert({"event":event_name, "data":event_date, "user":user_name})
+        # Return message to user (let's send them to a new page so that they can see addition to database)
+        myEvents = myCollection.find({})
+        return render_template('index.html', events=myEvents)
+             
 
 
 @app.route('/name/<name>')   # here, <name> denotes a variable

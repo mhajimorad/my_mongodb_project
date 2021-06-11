@@ -1,0 +1,56 @@
+/* CSS files add styling rules to your content */
+
+
+body {
+  font-family: helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: bold;
+  color: #373fff;
+}
+
+.bkgDeepSkyBlue {
+    background-color:deepskyblue;
+}
+
+.bkgNavajoWhite {
+    background-color:navajowhite;
+}
+
+.bkgLightBlue {
+  background-color:lightblue;
+}
+
+.bkgLightGreen {
+  background-color:lightgreen;
+}
+
+.bkgLightCoral {
+  background-color:lightcoral;
+}
+
+.bkgRed {
+  background-color:red;
+}
+
+.bkgSkyBlue {
+    background-color: SkyBlue;
+}
+
+.lighten {
+   filter: brightness(150%)
+} 
+
+.smallFont {
+  font-size: 12px;
+}
+
+.largeFont {
+  font-size: 25px;
+}
+
+.largeWeight {
+  font-weight: 750;
+}
